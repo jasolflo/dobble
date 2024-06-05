@@ -1,0 +1,154 @@
+:root {
+    --sizeCoef: 1;
+    --classic-card-width: calc(33vh*var(--sizeCoef));
+}
+
+
+* {
+    font-family: "Optima" !important;
+}
+
+#AbtnRock {
+    color: transparent;
+    background: url(./assets/rock.svg);
+    background-position: center;
+    width: 200px;
+    height: 200px;
+    background-size: 200px;
+}
+
+#AbtnPaper {
+    color: transparent;
+    background: url(./assets/paper.svg);
+    background-position: center;
+    width: 200px;
+    height: 200px;
+    background-size: 200px;
+}
+
+#AbtnScissors {
+    color: transparent;
+    background: url(./assets/scissor.svg);
+    background-position: center;
+    width: 200px;
+    height: 200px;
+    background-size: 200px;
+}
+
+Ah1 {
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 2;
+}
+
+.d-card {
+    display: flex;
+    justify-content: space-around;
+}
+
+.d-card-bg {
+    display: flex;
+    justify-content: space-around;
+    
+    padding-top: var(--classic-card-width);
+    width: var(--classic-card-width);
+    
+    
+    background-color: #fff;
+    border: 2px solid #555;
+    border-radius: 50%;
+    -moz-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .4);
+    -webkit-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .4);
+    -o-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .4);
+    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .4);
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565,Direction=134,Strength=30);
+    position: relative;
+}
+
+.d-card-symbol {
+    background-image: url(assets/img/snk.jpg);
+    background-size: 100%;
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d-card-1 {
+    top:31%;
+    left:4%;
+    transform:rotate(45deg);
+    width:30%;
+    height:30%;
+}
+
+.d-card-2 {
+    top:7%;
+    left:25%;
+    transform:rotate(155deg);
+    width:31%;
+    height:31%;
+}
+
+.d-card-3 {
+    top:62%;
+    left:15%;
+    transform:rotate(45deg);
+    width:22%;
+    height:22%;
+}
+
+.d-card-4 {
+    top:37%;
+    left:36%;
+    transform:rotate(-105deg);
+    width:32%;
+    height:32%;
+}
+
+.d-card-5 {
+    top:13%;
+    left:55%;
+    transform:rotate(180deg);
+    width:22%;
+    height:22%;
+}
+
+.d-card-6 {
+    top:72%;
+    left:35%;
+    transform:rotate(0deg);
+    width:26%;
+    height:26%;
+}
+
+.d-card-7 {
+    top:22%;
+    left:63%;
+    transform:rotate(-90deg);
+    width:40%;
+    height:40%;
+}
+
+.d-card-8 {
+    top:60%;
+    left:62%;
+    transform:rotate(-90deg);
+    width:25%;
+    height:25%;
+}
+
+.d-button-container {
+    margin-top: 48px;
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: space-around;
+    margin-right: 30%;
+    margin-left: 30%;
+    background-color: aqua;
+}
+
+.d-button {
+    width: 10%;
+}

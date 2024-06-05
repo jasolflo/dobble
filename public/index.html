@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dobble</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./socket.io/socket.io.js"></script>
+    <script src="./client.js"></script>
+</head>
+<body>
+    <h1>Dobble!</h1>
+
+    <div id="initialZone">
+
+        <form>
+            <label for="fname">Username:</label><br>
+            <input type="text" id="fname" name="fname"><br>
+        </form>
+
+        <button onClick="CreateGame()">Create Game</button>
+        <p>or</p>
+        <input type="text" id="input_roomUniqueID"/>
+        <button onClick="JoinGame()">Join Game</button>
+    </div>
+    <div id="gameplayZone" style="display: none;">
+        <div id="waitingArea">
+            <button id="StartButton" style="display: none;">Start Game</button>
+        </div>
+        <div id="gameArea" style="display: none;">
+            
+            
+            <div class="d-container">
+
+                <div id="d-deck-card" class="d-card">
+                    <div class="d-card-bg">
+                    <div class="d-card-symbol d-card-1">1</div>
+                    <div class="d-card-symbol d-card-2">2</div>
+                    <div class="d-card-symbol d-card-3">3</div>
+                    <div class="d-card-symbol d-card-4">4</div>
+                    <div class="d-card-symbol d-card-5">5</div>
+                    <div class="d-card-symbol d-card-6">6</div>
+                    <div class="d-card-symbol d-card-7">7</div>
+                    <div class="d-card-symbol d-card-8">8</div>
+                    </div>
+                </div>
+            
+                <div class="d-button-container">
+                    <button class="d-button">1</button>
+                    <button class="d-button">2</button>
+                    <button class="d-button">3</button>
+                    <button class="d-button">4</button>
+                    <button class="d-button">5</button>
+                    <button class="d-button">6</button>
+                    <button class="d-button">7</button>
+                    <button class="d-button">8</button>
+                </div>
+            
+                <div id="d-player-card" class="d-card">
+                    <div class="d-card-bg">
+                    <div class="d-card-symbol d-card-1">1</div>
+                    <div class="d-card-symbol d-card-2">2</div>
+                    <div class="d-card-symbol d-card-3">3</div>
+                    <div class="d-card-symbol d-card-4">4</div>
+                    <div class="d-card-symbol d-card-5">5</div>
+                    <div class="d-card-symbol d-card-6">6</div>
+                    <div class="d-card-symbol d-card-7">7</div>
+                    <div class="d-card-symbol d-card-8">8</div>
+                    </div>
+                </div>
+            
+            </div>
+
+
+        </div>
+        <div id="winnerArea"></div>
+        <button id="playAgain" onClick="PlayAgain()" style="display: none;">Play Again</button>
+        <button id="exit" onClick="Exit()" style="display: none;">Exit</button>
+    </div>
+
+</body>
+</html>
