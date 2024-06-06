@@ -21,10 +21,10 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     
-    console.log('a user just connected! ' + socket.id);
+    console.log('a user just connected!');
     
     socket.on('disconnecting', () => {
-        console.log('user disconnected :( ' + socket.id);
+        console.log('user disconnected...');
         let allRooms = socket.rooms.values();
         let room = allRooms.next();
         room = allRooms.next();
@@ -39,10 +39,14 @@ io.on('connection', (socket) => {
     socket.on('createGame', (data) => {
         //crea una ID única de 6 caracteres para la room
         const roomUniqueID = generateID();
-        console.log("creando el juego...");
+        console.log("creating game...");
         rooms[roomUniqueID] = {};
-        rooms[roomUniqueID].lastID = 0;
-        rooms[roomUniqueID].playersData = [data.username];
+        let username = data.username;
+        if(username == "") username = "Player 1";
+        rooms[roomUniqueID].playersData = [username];
+        rooms[roomUniqueID].deck = data.deck;
+        rooms[roomUniqueID].playAgainCount = 0;
+        
         //unirse a room y avisar de ello con la ID usada
         socket.join(roomUniqueID);
         socket.emit('newGame', {roomUniqueID: roomUniqueID});
@@ -59,10 +63,12 @@ io.on('connection', (socket) => {
             socket.join(data.roomUniqueID);
             //update last ID
             room = rooms[data.roomUniqueID];
-            room.lastID += 1;
-            room.playersData.push(data.username);
-            socket.to(data.roomUniqueID).emit('playerConnected', {lastID: room.lastID});
-            socket.emit('playerConnected', {lastID: room.lastID});
+            let username = data.username;
+            if(username == "") username = "Player " + (rooms[data.roomUniqueID].playersData.length + 1);
+            room.playersData.push(username);
+            socket.to(data.roomUniqueID).emit('playerConnected');
+            socket.emit('playerConnected');
+            socket.emit('setNewID', {username: username, newID: (rooms[data.roomUniqueID].playersData.length - 1)});
         } else {
             console.log("room already full");
         }
@@ -70,8 +76,31 @@ io.on('connection', (socket) => {
     
     //host decides to start game; server tells clients to start game
     socket.on('startGame', (data) => {
-        socket.to(data.roomUniqueID).emit('showGame', {});
-        socket.emit('showGame', {playersData: rooms[data.roomUniqueID].playersData});
+        //no one else can enter once the game starts
+        rooms[data.roomUniqueID].size = 100;
+        socket.to(data.roomUniqueID).emit('showGame', {playersData: rooms[data.roomUniqueID].playersData, deck: rooms[data.roomUniqueID].deck});
+        socket.emit('showGame', {playersData: rooms[data.roomUniqueID].playersData, deck: rooms[data.roomUniqueID].deck});
+    });
+
+    //all players must agree on starting new game
+    socket.on('playAgain', (data) => {
+        rooms[data.roomUniqueID].playAgainCount += 1;
+        if(rooms[data.roomUniqueID].playAgainCount >= rooms[data.roomUniqueID].playersData.length){
+            rooms[data.roomUniqueID].playAgainCount = 0;
+            socket.emit('getNewDeck');
+        }
+    });
+    //once new deck is generated, start new game
+    socket.on('newDeckReady', (data) => {
+        rooms[data.roomUniqueID].deck = data.newDeck;
+        socket.to(data.roomUniqueID).emit('showGame', {playersData: rooms[data.roomUniqueID].playersData, deck: rooms[data.roomUniqueID].deck});
+        socket.emit('showGame', {playersData: rooms[data.roomUniqueID].playersData, deck: rooms[data.roomUniqueID].deck});
+    });
+
+    //al recibir el mensaje createGame (cuando el usuario quiere crear un juego nuevo)
+    socket.on('onCorrectButton', (data) => {
+        socket.to(data.roomUniqueID).emit('onRoundLost', {playerID: data.playerID});
+        socket.emit('onRoundWon');
     });
 
 });
